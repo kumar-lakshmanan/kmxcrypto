@@ -30,9 +30,8 @@ def hello_http(request):
     print(data)
     
 
-    if request_args and 'winnercheck' in request_args:
-        tls.info("Performing winner check")
-        mainDailyPNLWinnersCheck.doWinnerCheck()
-        
+    tls.info("Performing winner check")
+    mainDailyPNLWinnersCheck.doWinnerCheck()
+    
     
     return data
