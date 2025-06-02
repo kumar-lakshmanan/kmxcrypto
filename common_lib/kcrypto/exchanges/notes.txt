@@ -1,0 +1,24 @@
+            
+            #not working
+            #soup.find( 'div', lambda tag: ( tag.name == 'div' and tag.get('data-role') == 'btn-content-item' and any('BaseButton_labelWrapper' in cls for cls in tag.get('class', [])) and len(tag.find_all('span', recursive=False)) == 1 and'base-text' in tag.find('span', recursive=False).get('class', []) ) )            
+            #working
+            #soup.find(lambda tag: ( tag.name == 'div' and tag.get('data-role') == 'btn-content-item' and any('BaseButton_labelWrapper' in cls for cls in tag.get('class', [])) and len(tag.find_all('span', recursive=False)) == 1 and'base-text' in tag.find('span', recursive=False).get('class', []) ) )
+            
+            # name = nameSection.find('h2').contents[0] if len(nameSection.find('h2').contents)==2 else None
+            # symbol = nameSection.find('h2').find('small').text
+            
+            # _tmp = nameSection.find_all('div',{'class':'namePill'})
+            # rank = int(_tmp[0].text.replace('Rank #','')) if len(_tmp) == 3 else None
+            # symbolType = _tmp[1].text if len(_tmp) == 3 else None
+            # cmcWatchers = int(_tmp[2].text.replace('On ','').replace(' watchlists','').replace(',','')) if len(_tmp) == 3 else None
+    
+            # rank = soup.find_all(lambda tag: (tag.name == 'span' and tag.get('style') == 'font-size: var(--c-font-size-50);')).contents[0]
+
+            #span = soup.find('span', attrs={'style': lambda s: s and 'font-size: var(--c-font-size-50)' in s.replace(" ", "")})
+            #soup.select_one('span[style*="font-size: var(--c-font-size-50)"]')
+            
+            
+
+            #<div data-scope="pcs-value" class="sc-65e7f566-0 eCvwAK">70%</div>
+            #TODO: COMING AS EMPTY. WHY? WHY NO VALUE FOUND
+            #profileScore = soup.find(lambda tag:(tag.name=='div' and tag.get('data-scope') == 'pcs-value'))            
