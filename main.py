@@ -20,6 +20,6 @@ def hello_http(request):
         name = request_args['name']
     else:
         name = 'World'
-    data = 'Hello {}!'.format(name)
+    data = 'from repo Hello {}!'.format(name)
     print(data)
     return data
