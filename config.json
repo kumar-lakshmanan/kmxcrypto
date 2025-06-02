@@ -1,0 +1,22 @@
+{
+	"general" : {
+					"timeStampFormat" : "%Y%m%d%H%M%S",
+					"dateTimeFormat" : "%Y-%m-%d %I:%M:%S %p"
+				},
+	"logging" : {
+					"logDisable" : 0,
+					"logLevel" : "INFO",
+					"logDateTimeFormat2" : "%Y-%m-%d %I:%M:%S%p",
+					"logDateTimeFormat" : "%I:%M:%S%p",
+					"logFormat": "[%(asctime)s]%(levelname).1s:%(message)s",
+					"logToConsole" : 1,
+					"logToFile" : 0,
+					"logFile" : "output.log",
+					"logModuleName" : 0,
+					"logProdMode" : 0
+				},
+	"folders" : {
+					"temp" : "/TEMP" ,
+					"cache" : "/ktools/cache"
+				}
+}
