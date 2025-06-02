@@ -15,18 +15,24 @@ __author__ = "kayma"
 import sqlite3
 from typing import List, Tuple, Optional
 import mysql.connector
+from common_lib import kTools
 
 class SimpleMySql:    
     def __init__(self):
         self.conn = None
+        self.tls = kTools.KTools()
         
     def connect(self):
-        if self.conn is None:        
-            self.conn = mysql.connector.connect(
-                            host="127.0.0.1",
-                            port=3306,
-                            user="root",
-                            password="-")
+        
+        if self.conn is None:
+            
+            dbpassword = self.tls.getEnv('DB_PASS', None)
+            if dbpassword:
+                self.conn = mysql.connector.connect(
+                                host="127.0.0.1",
+                                port=3306,
+                                user="root",
+                                password=dbpassword)
         return self.conn
 
     def execute_query(self, query: str, params: Tuple = ()) -> None:

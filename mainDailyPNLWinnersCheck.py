@@ -18,9 +18,10 @@ from common_lib import kTools
 from lib import utilities
 from lib import fetcher
 
-if __name__ == "__main__":
-    tls = kTools.KTools()
-    tls.logSys.setLevel("INFO")
+tls = kTools.KTools()
+tls.logSys.setLevel("INFO")
+
+def doWinnerCheck():
     core = fetcher.ConsolidatedDataFetch()
     gens = utilities.GeneralServices()
     dbs = utilities.DBServices()
@@ -47,4 +48,9 @@ if __name__ == "__main__":
             tls.info(f"{cnt+1}. Waiting for {coin} to win for past {noOfDays} days, came on {entryDate}")    # Buy/Current Price: {buyPrice}/{nowPrice}")
     dbs.manual_commit_close()
     tls.info(f"Total coins won now: {winCnt}/{len(openEntries)}")
-    tls.info("End")
+    tls.info("End")    
+
+if __name__ == "__main__":
+    doWinnerCheck()
+    
+

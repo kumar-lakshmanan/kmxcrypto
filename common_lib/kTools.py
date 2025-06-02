@@ -96,7 +96,12 @@ class KTools(object):
             self.addSysPaths()
             self._initialized = True  # Mark as initialized
 
-    
+    def getEnv(self, variableName, defaultValue=None):
+        if variableName and variableName in os.environ:
+            return os.environ[variableName]
+        else:
+            return defaultValue
+        
     def helloworld(self):
         self.info("Hello world from KTools")
 

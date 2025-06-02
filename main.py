@@ -1,4 +1,10 @@
 import functions_framework
+from common_lib import kTools
+from lib import utilities
+from lib import fetcher    
+import mainDailyPNLWinnersCheck
+tls = kTools.KTools()
+tls.logSys.setLevel("INFO")
 
 @functions_framework.http
 def hello_http(request):
@@ -22,4 +28,11 @@ def hello_http(request):
         name = 'World'
     data = 'from repo Hello {}!'.format(name)
     print(data)
+    
+
+    if request_args and 'winnercheck' in request_args:
+        tls.info("Performing winner check")
+        mainDailyPNLWinnersCheck.doWinnerCheck()
+        
+    
     return data
