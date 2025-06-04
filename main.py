@@ -3,6 +3,7 @@ from common_lib import kTools
 from lib import utilities
 from lib import fetcher    
 import mainDailyPNLWinnersCheck
+from common_lib import kDatabase
 
 tls = kTools.KTools()
 tls.logSys.setLevel("INFO")
@@ -16,7 +17,20 @@ def mymainfunction(request):
     ret = (0,0)
     if request_args and 'name' in request_args:
         param = request_args['name']
+
         if param == "runcheck":
             tls.info("Performing winner check")
             ret = mainDailyPNLWinnersCheck.doWinnerCheck()
+
+        if param == "dbcheck":
+            tls.info("Testing DB Connection....")
+            db = kDatabase.SimpleMySql()
+            db.connect()
+            db.close()
+            tls.info("Able to connect!!")
+
+
+
+
+
     return str(ret)

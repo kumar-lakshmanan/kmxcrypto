@@ -36,8 +36,7 @@ class SimpleMySql:
                 self.conn = mysql.connector.connect(
                     user=db_user,
                     password=db_password,
-                    host=ip_prod,
-                    port=3306,
+                    unix_socket=socket_path,
                     database=db_name
                 )
             else:
