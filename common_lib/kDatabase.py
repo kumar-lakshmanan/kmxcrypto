@@ -25,14 +25,27 @@ class SimpleMySql:
     def connect(self):
         
         if self.conn is None:
-            
-            dbpassword = self.tls.getEnv('DB_PASS', None)
-            if dbpassword:
+            connection_name = "kaymatrix:us-central1:mycryptodb"
+            db_name = "kmxcryptos"
+            db_user = "root"
+            db_password = self.tls.getEnv('DB_PASS', None)
+            is_prod = self.tls.getEnv('IS_PROD', 0)
+            socket_path = f"/cloudsql/{connection_name}"
+            if is_prod:
                 self.conn = mysql.connector.connect(
-                                host="127.0.0.1",
-                                port=3306,
-                                user="root",
-                                password=dbpassword)
+                    user=db_user,
+                    password=db_password,
+                    unix_socket=socket_path,
+                    database=db_name
+                )
+            else:
+                self.conn = mysql.connector.connect(
+                    user=db_user,
+                    password=db_password,
+                    host="127.0.0.1",
+                    port=3306,
+                    database=db_name
+                )
         return self.conn
 
     def execute_query(self, query: str, params: Tuple = ()) -> None:
