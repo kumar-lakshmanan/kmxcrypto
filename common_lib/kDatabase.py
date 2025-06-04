@@ -30,12 +30,14 @@ class SimpleMySql:
             db_user = "root"
             db_password = self.tls.getEnv('DB_PASS', None)
             is_prod = self.tls.getEnv('IS_PROD', 0)
+            ip_prod = self.tls.getEnv('IP_PROD', 0)
             socket_path = f"/cloudsql/{connection_name}"
             if is_prod:
                 self.conn = mysql.connector.connect(
                     user=db_user,
                     password=db_password,
-                    unix_socket=socket_path,
+                    host=ip_prod,
+                    port=3306,
                     database=db_name
                 )
             else:
