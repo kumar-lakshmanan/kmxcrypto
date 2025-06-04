@@ -42,7 +42,7 @@ if __name__ == "__main__":
         filteredCoins = core.myGuessFilter(todaysTopGainerLoserList)
                 
         if (len(filteredCoins)):
-            dbs.genericWriteDB(filteredCoins, dbs.tblPNLTopGainersLosers)
+            dbs.genericWriteDB(filteredCoins)
     
     tls.info(f"Today Picked: {len(filteredCoins)}")
     
