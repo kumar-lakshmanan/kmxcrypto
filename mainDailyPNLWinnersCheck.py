@@ -16,7 +16,6 @@ from lib import utilities
 from lib import fetcher
 
 tls = kTools.KTools()
-tls.logSys.setLevel("INFO")
 
 def doWinnerCheck():
 
@@ -24,13 +23,14 @@ def doWinnerCheck():
     dbs = utilities.DBServices()
 
     profitPercentToClose = 2.5
+
     tls.info("Start...")
     today = tls.getDateTimeStamp("%Y%m%d%H%M%S")
     winCnt = 0
     openEntries = dbs.getPNLForStatus('open')
     tls.info(f"Total open coins {len(openEntries)}")
     if len(openEntries) > 0:
-        core = fetcher.ConsolidatedDataFetch()
+        core = fetcher.ConsolidatedDataFetch(skipFetchingPreData=1)
         core.getCoinPrice.cache_clear()
         for cnt, eachEntry in enumerate(openEntries):
             entryDate = eachEntry[1]

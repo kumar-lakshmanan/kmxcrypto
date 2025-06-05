@@ -105,7 +105,6 @@ class SimpleSQLite:
             self.conn.close()
             self.conn = None
 
-
 if __name__ == '__main__':
     dbname = ""
     db = SimpleSQLite("test.db")

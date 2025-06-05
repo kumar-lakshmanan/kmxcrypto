@@ -19,14 +19,14 @@ from common_lib.kcrypto.exchanges.coinmarketcap import CoinMarketCap
 
 class ConsolidatedDataFetch():
     
-    def __init__(self):
+    def __init__(self, skipFetchingPreData = 0):
         self.tls = kTools.KTools()        
         self.cmc = CoinMarketCap()
         self.todaysSentimentalCoins, self.sentimentDetails = [],[]
         self.todayBinanceToppers = []
         self.todaysMostVisited = []
         self.todaysMostTrending = []
-        self.gatherTodaysData()
+        if not skipFetchingPreData: self.gatherTodaysData()
 
     def gatherTodaysData(self):
         self.todaysSentimentalCoins, self.sentimentDetails = self.cmc.getCommunitySentiment()
@@ -173,7 +173,7 @@ class ConsolidatedDataFetch():
             if not (binTradVolPercent > 0):  continue
             
             # rank should be below 50
-            if not (rank < 50):  continue                
+            if not (rank < 50 and rank > 10):  continue
                 
             # cmcWatchers should be above 100k
             if not (cmcWatchers > 100000):  continue
