@@ -840,7 +840,7 @@ class KTools(object):
 
     def isLocal(self):
         if self.isWindows():
-            return os.environ['COMPUTERNAME'].upper() == self.cfg.desktopName.upper()
+            return os.environ['COMPUTERNAME'] == self.getSafeConfig(['general','DesktopName'])
         return False
 
     def isProd(self):
@@ -1285,12 +1285,14 @@ if __name__ == "__main__":
     customJsonConfigFile = "config.json"
 
     tls = KTools()
+    print(tls.isProd())
+    print(tls.isLocal())
 
     tls.error("ERROR")
     tls.warn("WARN")
     tls.info(tls.getTraceInfo())
     tls.info(tls.getLastErrorInfo())
-    tls.raiseError("Custom Error")
+    #tls.raiseError("Custom Error")
     tls.info(tls.getLastErrorInfo())
     tls.info("INFO")
     tls.debug("DEBUG")
@@ -1300,3 +1302,4 @@ if __name__ == "__main__":
     tls.info(tls.getRandom(10))
 
     #tls.raiseError("TEST MSG")
+
