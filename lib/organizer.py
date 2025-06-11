@@ -6,8 +6,10 @@ class WinnerChecker():
 
     def __init__(self):
         self.tls = kTools.KTools()
-        self.lfs = local_firestore.LocalFireStore()
-        self.gfs = gcp_firestore.GCPFireStore()
+        if self.tls.isProd() and not self.tls.isLocal():
+            self.gfs = gcp_firestore.GCPFireStore()
+        else:
+            self.lfs = local_firestore.LocalFireStore()
 
     def getCurrentOpenItems(self):
         if self.tls.isProd() and not self.tls.isLocal():
