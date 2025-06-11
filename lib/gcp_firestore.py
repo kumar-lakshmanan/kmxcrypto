@@ -73,7 +73,7 @@ class GCPFireStore():
         return docRef.id
 
     def _updateDoc(self, docId, updateDict):
-        collRef = self.db.collection(gcpfs.collectionName)
+        collRef = self.db.collection(self.collectionName)
         docRef = collRef.document(docId)
         docRef.update(updateDict)
         self.tls.debug(f"Updating {docId} with {updateDict}")
