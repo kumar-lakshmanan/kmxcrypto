@@ -1,10 +1,10 @@
-import os,sys
-
 from google.cloud import firestore
 from google.cloud.firestore_v1.base_query import FieldFilter
 from google.oauth2 import service_account
 
 import kTools
+
+
 #
 # for doc in docs:
 #     print(doc.id, doc.to_dict())

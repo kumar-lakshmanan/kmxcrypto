@@ -9,7 +9,6 @@ __created__ = "11-May-2025"
 __updated__ = "11-May-2025"
 __author__ = "kayma"
 
-import os,sys
 import kTools
 
 from lib import organizer
@@ -17,6 +16,7 @@ from lib import utilities
 from lib import fetcher
 
 tls = kTools.KTools()
+tls.kdata['uselivedata'] = tls.getSafeConfig(['general','uselivedata'],0)
 
 def doWinnerCheck():
     profitPercentToClose = 2.5

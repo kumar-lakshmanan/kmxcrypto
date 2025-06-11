@@ -1,4 +1,3 @@
-import os,sys
 import kDatabase
 
 #Sample Data
@@ -9,6 +8,7 @@ import kDatabase
 # 'bullvotes': 86, 'bearvotes': 21, 'bullpercent': 80, 'bearpercent': 20, 'ttlvotes': 234, 'trendpercent': 3.3, 'sentimenttype': 'bullish'}
 
 import kTools
+
 
 class LocalFireStore():
 

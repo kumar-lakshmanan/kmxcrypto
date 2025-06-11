@@ -12,10 +12,10 @@ __created__ = "11-May-2025"
 __updated__ = "11-May-2025"
 __author__ = "kayma"
 
-import os,sys
 from functools import lru_cache
 from kcrypto.exchanges.coinmarketcap import CoinMarketCap
 import kTools
+
 
 class ConsolidatedDataFetch():
     

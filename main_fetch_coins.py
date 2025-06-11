@@ -14,6 +14,7 @@ from lib import fetcher
 from lib import organizer
 
 tls = kTools.KTools()
+tls.kdata['uselivedata'] = tls.getSafeConfig(['general','uselivedata'],0)
 
 def doFetchCoin(forceUpdate = 0):
     fc = organizer.FetchCoin()
@@ -31,7 +32,7 @@ def doFetchCoin(forceUpdate = 0):
         for eachCoin in filteredCoins:
             res = fc.addToCollection(eachCoin)
             tls.info(f"Added {eachCoin['coin']}") if res else tls.error(f"Unable to add date {eachCoin['coin']}")
-    ret = f"Status: TotalTopGainersLosers: {len(todaysTopGainerLoserList)}/Filtered : {len(filteredCoins)}"
+    ret = f"Status: TotalTopGainersLosers: {len(todaysTopGainerLoserList)} / Filtered : {len(filteredCoins)}"
     tls.info(ret)
     return ret
 

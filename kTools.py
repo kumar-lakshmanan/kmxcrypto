@@ -145,6 +145,7 @@ class KTools(object):
             self.qapp = None
             self.appName = None
             self.noLogPrintOnly = 1
+            self.kdata = {}
 
             self.lookUp = self.setUpLookUp(customPyLookUp)      #USAGE: self.lookUp.<prop>
             self.cfg = self.setUpConfig(customJsonConfigFile)   #USAGE: self.getSafeConfig(<list>,defaultValue)
@@ -170,7 +171,6 @@ class KTools(object):
 
             self.addSysPaths()
 
-            self.turnDebugLogs(0)
             self._initialized = True
 
     def helloworld(self):

@@ -1,4 +1,5 @@
 import kTools
+from lib import utilities
 from lib import local_firestore
 from lib import gcp_firestore
 
@@ -6,13 +7,15 @@ class WinnerChecker():
 
     def __init__(self):
         self.tls = kTools.KTools()
-        if self.tls.isProd() and not self.tls.isLocal():
+        self.utls = utilities.GeneralServices()
+
+        if self.utls.isProdLiveData():
             self.gfs = gcp_firestore.GCPFireStore()
         else:
             self.lfs = local_firestore.LocalFireStore()
 
     def getCurrentOpenItems(self):
-        if self.tls.isProd() and not self.tls.isLocal():
+        if self.utls.isProdLiveData():
             openDocs = self.gfs.getDocumentsByStatus("open")
         else:
             openDocs = self.lfs.getDocumentsByStatus("open")
@@ -20,7 +23,7 @@ class WinnerChecker():
         return openDocs
 
     def updateWinner(self, entryDate, coin):
-        if self.tls.isProd() and not self.tls.isLocal():
+        if self.utls.isProdLiveData():
             self.gfs.updateDocument(entryDate, coin)
         else:
             self.lfs.updateDocument(entryDate, coin)
@@ -28,13 +31,15 @@ class WinnerChecker():
 class FetchCoin():
     def __init__(self):
         self.tls = kTools.KTools()
-        if self.tls.isProd() and not self.tls.isLocal():
+        self.utls = utilities.GeneralServices()
+
+        if self.utls.isProdLiveData():
             self.gfs = gcp_firestore.GCPFireStore()
         else:
             self.lfs = local_firestore.LocalFireStore()
 
     def getTodaysCollection(self):
-        if self.tls.isProd() and not self.tls.isLocal():
+        if self.utls.isProdLiveData():
             todaysCollection = self.gfs.getDocumentsByDate(int(self.tls.getDateTimeStamp("%Y%m%d")))
         else:
             todaysCollection = self.lfs.getDocumentsByDate(int(self.tls.getDateTimeStamp("%Y%m%d")))
@@ -42,7 +47,7 @@ class FetchCoin():
         return todaysCollection
 
     def addToCollection(self, data):
-        if self.tls.isProd() and not self.tls.isLocal():
+        if self.utls.isProdLiveData():
             return self.gfs.addDocument(data)
         else:
             return self.lfs.addDocument(data)

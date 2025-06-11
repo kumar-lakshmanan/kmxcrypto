@@ -15,22 +15,16 @@ __author__ = "kayma"
 from requests import Session
 from bs4 import BeautifulSoup
 from functools import lru_cache
-from operator import itemgetter
-from urllib.parse import urljoin, urlencode
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
 import requests
 import json
-import codecs
-import time
-import hmac
-import hashlib
 import unicodedata
 
 from kWebClient import WebClient
 import kTools
 
-            
+
 class CoinMarketCap(object):
 
     def __init__(self, api_key=''):
