@@ -16,7 +16,6 @@ from requests import Session
 from bs4 import BeautifulSoup
 from functools import lru_cache
 from operator import itemgetter
-from twitter import Twitter, OAuth
 from urllib.parse import urljoin, urlencode
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 

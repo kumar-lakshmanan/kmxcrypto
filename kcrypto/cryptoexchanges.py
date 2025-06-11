@@ -6,16 +6,15 @@ Created on 09-Sep-2021
 #-----------------------
 import requests
 import json
-import codecs
+
 import time
 import hmac
 import hashlib
-import unicodedata
-#from binance import Client
+
 from requests import Session
 from bs4 import BeautifulSoup
 from operator import itemgetter
-#from twitter import Twitter, OAuth
+
 from urllib.parse import urljoin, urlencode
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
