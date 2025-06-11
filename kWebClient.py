@@ -3,15 +3,14 @@ Created on 29-Apr-2025
 
 @author: kayma
 '''
-from common_lib import kTools
+import kTools
 import requests
 import json
 
 class WebClient:
     
     def __init__(self, base_url, headers=None, auth=None):
-        #self.tls = kTools.GetKTools()
-        self.tls = kTools.KTools()        
+        self.tls = kTools.KTools()
         self.base_url = base_url
         self.headers = headers or {}
         self.auth = auth
@@ -47,6 +46,7 @@ class WebClient:
     def get_json(self, endpoint, params=None, headers=None):
       response = self.get(endpoint, params, headers)
       return response.json()
+
 
 # Example Usage
 if __name__ == '__main__':

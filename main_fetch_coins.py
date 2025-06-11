@@ -4,46 +4,36 @@
 @createdon: 11-May-2025
 @description:
 
-
-
- 
 '''
 __created__ = "11-May-2025" 
 __updated__ = "11-May-2025"
 __author__ = "kayma"
 
-import os,sys
-from common_lib import kTools
-
-from lib import utilities
+import kTools
 from lib import fetcher
+from lib import organizer
 
 tls = kTools.KTools()
 
-def fetchTodaysCoin(forceUpdate = 0):
-    tls.info("Start fetching new coin...")
-    todaysTopGainerLoserList = []
+def doFetchCoin(forceUpdate = 0):
+    fc = organizer.FetchCoin()
     filteredCoins = []
-
-    dbs = utilities.DBServices()
-
-    todaysTopGainerLoserList = dbs.getPNLForDate(tls.getDateTimeStamp("%Y%m%d"))
-
+    todaysTopGainerLoserList = fc.getTodaysCollection()
+    tls.info("Verify is today already collected... " + str(len(todaysTopGainerLoserList)))
     if len(todaysTopGainerLoserList) <= 0 or forceUpdate:
+        tls.info("Start analysing new coin...")
         core = fetcher.ConsolidatedDataFetch()
-
         tls.info("Fetching top gainers and losers...")
         todaysTopGainerLoserList = core.fetchTodayTopGainersLosers(1)
+        tls.info(f"Found {len(todaysTopGainerLoserList)}")
         filteredCoins = core.myGuessFilter(todaysTopGainerLoserList)
-        if (len(filteredCoins)):
-            dbs.genericWriteDB(filteredCoins)
-
+        tls.info(f"Filtering with my logic, Found: {len(filteredCoins)}")
+        for eachCoin in filteredCoins:
+            res = fc.addToCollection(eachCoin)
+            tls.info(f"Added {eachCoin['coin']}") if res else tls.error(f"Unable to add date {eachCoin['coin']}")
     ret = f"Status: TotalTopGainersLosers: {len(todaysTopGainerLoserList)}/Filtered : {len(filteredCoins)}"
     tls.info(ret)
     return ret
 
 if __name__ == "__main__":
-    fetchTodaysCoin()
-
-
-
+    doFetchCoin()

@@ -16,6 +16,7 @@ from requests import Session
 from bs4 import BeautifulSoup
 from functools import lru_cache
 from operator import itemgetter
+from twitter import Twitter, OAuth
 from urllib.parse import urljoin, urlencode
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
@@ -27,8 +28,9 @@ import hmac
 import hashlib
 import unicodedata
 
-from common_lib import kWebClient
-from common_lib import kTools
+from kWebClient import WebClient
+import kTools
+
             
 class CoinMarketCap(object):
 
@@ -116,7 +118,7 @@ class CoinMarketCap(object):
         payloads['timeFrame'] = 1
         headers = {}
         headers['User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
-        wc = kWebClient.WebClient(base_url=url)
+        wc = WebClient(base_url=url)
         resp = wc.post('', payloads, headers)
         if resp.status_code == 200 :
             respJson = resp.json()
@@ -125,7 +127,8 @@ class CoinMarketCap(object):
             tls.error("Unable to fetch: ")
             tls.error(resp)            
         return respJson        
-        
+    
+    
     def getMostViewed(self):
         mostVisited = []
         murl = 'https://coinmarketcap.com/most-viewed-pages/'
@@ -663,7 +666,7 @@ class CoinMarketCap(object):
         return lst     
 
 if __name__ == '__main__':
-    tls = kTools.GetKTools()    
+    tls = kTools.KTools()
 
     obj = CoinMarketCap()
     #

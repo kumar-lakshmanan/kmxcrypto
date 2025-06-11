@@ -7,6 +7,7 @@ Created on 09-Sep-2021
 from requests import Session
 from bs4 import BeautifulSoup
 from operator import itemgetter
+from twitter import Twitter, OAuth
 from urllib.parse import urljoin, urlencode
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 
@@ -18,13 +19,13 @@ import hmac
 import hashlib
 import unicodedata
 
-from common_lib import kTools
+import kTools
 
 class General(object):
 
     def __init__(self):
         
-        self.tls = kTools.KTools()
+        self.tls = kTools.GetKTools()
         self.tls.debug('Initializing {0}'.format(self.__class__.__name__))
         
         self.diffFor = ['inr','usdt','wrx']

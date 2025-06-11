@@ -14,8 +14,8 @@ __author__ = "kayma"
 
 import os,sys
 from functools import lru_cache
-from common_lib import kTools
-from common_lib.kcrypto.exchanges.coinmarketcap import CoinMarketCap
+from kcrypto.exchanges.coinmarketcap import CoinMarketCap
+import kTools
 
 class ConsolidatedDataFetch():
     
@@ -132,31 +132,32 @@ class ConsolidatedDataFetch():
         self.tls.debug("Picking my-guess coins...")        
         picked = []
         for each in allTopGainerLoser:
-            today = each[0]
-            coin = each[1]
-            slug = each[2]
-            price = each[3]
-            priceChangePercent = each[4]
-            binTradVolPercent = each[5]
-            trend7d = each[6]
-            trendttl = each[7]
-            rank = each[8]
-            cmcWatchers = int(each[9])
-            cmcStarRating = float(each[10])
-            status = each[11]
-            windate = each[12]
-            windur = each[13]
-            isItMostVisited = each[14]
-            isItMostTrending = each[15]
-            isItSentimental = each[16]
-            bullvotes = each[17]
-            bearvotes = each[18]
-            bullpercent = each[19]
-            bearpercent = each[20]
-            ttlvotes = each[21]
-            trendPercent = each[22]
-            type = each[23]
-            
+            data = {}
+            data['date'] = today = each[0]
+            data['coin'] = coin = each[1]
+            data['coinslug'] = slug = each[2]
+            data['price'] = price = each[3]
+            data['pricechangepercent'] = priceChangePercent = each[4]
+            data['binanceTradeVolPercent'] = binTradVolPercent = each[5]
+            data['trend7d'] = trend7d = each[6]
+            data['trendttl'] = trendttl = each[7]
+            data['rank'] = rank = each[8]
+            data['cmcWatchers'] = cmcWatchers = int(each[9])
+            data['cmcStarRating'] = cmcStarRating = float(each[10])
+            data['status'] = status = each[11]
+            data['winDate'] = windate = each[12]
+            data['winDuration'] = windur = each[13]
+            data['isMostVisited'] = isItMostVisited = each[14]
+            data['isMostTrending'] = isItMostTrending = each[15]
+            data['isSentimental'] = isItSentimental = each[16]
+            data['bullvotes'] = bullvotes = each[17]
+            data['bearvotes'] = bearvotes = each[18]
+            data['bullpercent'] = bullpercent = each[19]
+            data['bearpercent'] = bearpercent = each[20]
+            data['ttlvotes'] = ttlvotes = each[21]
+            data['trendPercent'] = trendPercent = each[22]
+            data['sentimenttype'] = type = each[23]
+
             # Info should not be missed
             if (self.isMissing(bullvotes) or
                 self.isMissing(bearvotes) or
@@ -164,23 +165,42 @@ class ConsolidatedDataFetch():
                 self.isMissing(bearpercent) or
                 self.isMissing(ttlvotes) or
                 self.isMissing(trendPercent)):
+                self.tls.debug(f" {coin} - missed few infos: BLV: {bullvotes}, BRV: {bearvotes}, BLP: {bullpercent}, BRP: {bearpercent}, TTLV: {ttlvotes}, TRP: {trendPercent}")
                 continue
-            
-            # Price Change Percent should be less then 0 
-            if not (priceChangePercent < 0):  continue
-            
+
+            # Price Change Percent should be less then 0
+            if not (priceChangePercent < 0):
+                self.tls.debug(f" {coin} - Faild priceChangePercent {priceChangePercent} < 0")
+                continue
+
             # Should be in binance and trade vol in it should be above zero
-            if not (binTradVolPercent > 0):  continue
-            
+            if not (binTradVolPercent > 0):
+                self.tls.debug(f" {coin} - Faild binTradVolPercent {binTradVolPercent} > 0")
+                continue
+
             # rank should be below 50
-            if not (rank < 50 and rank > 10):  continue
-                
+            if not (rank < 50 and rank > 10):
+                self.tls.debug(f" {coin} - Faild rank {rank} < 50 and > 10")
+                continue
+
             # cmcWatchers should be above 100k
-            if not (cmcWatchers > 100000):  continue
-            
+            if not (cmcWatchers > 100000):
+                self.tls.debug(f" {coin} - Faild cmcWatchers {cmcWatchers} > 100000")
+                continue
+
             # cmcStarRating should be above 1
-            if not (cmcStarRating > 1):  continue
-            
-            picked.append(each)
+            if not (cmcStarRating > 1):
+                self.tls.debug(f" {coin} - Faild cmcStarRating {cmcStarRating} > 1")
+                continue
+
+            picked.append(data)
             
         return picked
+
+# ['20250610214412', 'UNI', 'uniswap', 8.222292052231788, 26.13793341, 0.82, '3.4', '445', 28, 770000, 0, 'open', None, None, 1, 1, 1, 51, 6, 89.5, 10.5, 172, 16.9, 'bullish']
+
+# {'date': 20250610023004, 'coin': 'AVAX', 'coinslug': 'avalanche', 'price': 21.31964523555377,
+# 'pricechangepercent': -0.57316786, 'binanceTradeVolPercent': 0.32, 'trend7d': -3, 'trendttl': 235, 'rank': 14,
+# 'cmcWatchers': 1000000, 'cmcStarRating': 4, 'status': 'pass', 'winDate': 20250610034002,
+# 'winDuration': 0, 'isMostVisited': 1, 'isMostTrending': 1, 'isSentimental': 1,
+# 'bullvotes': 86, 'bearvotes': 21, 'bullpercent': 80, 'bearpercent': 20, 'ttlvotes': 234, 'trendpercent': 3.3, 'sentimenttype': 'bullish'}

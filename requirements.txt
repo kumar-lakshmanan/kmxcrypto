@@ -1,5 +1,6 @@
-pytz
 requests
 beautifulsoup4
-mysql-connector-python
+google-cloud-firestore
+google-auth
 functions-framework==3.*
+pytz

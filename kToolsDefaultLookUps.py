@@ -25,8 +25,12 @@ versionStr = "v%s" % __version__
 versionInfo ='%s (%s)' % (versionStr, __updated__)
 contactInfo = 'Contact kaymatrix@gmail.com for more info.'
 
-JsonConfigFile = 'config.json'
-envVarJsonConfigFile = 'KCONFIG'  #ENV Variable to mention that JSON COnfig File
+#Env Variables
+envVarJsonConfigFile = 'K_CONFIG'       #Config File location
+envVarIsProd = 'K_ISPROD'               #Is it Prod
 
-ciperKey = 4132     #Four digit secret key
+#More Config
+lookUpType = 'static'
+JsonConfigFile = 'config.json'
+ciperKey = 4132                         #Four digit secret key
 randomSeed = 54

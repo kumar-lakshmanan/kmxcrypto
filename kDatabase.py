@@ -12,41 +12,70 @@ __created__ = "11-May-2025"
 __updated__ = "11-May-2025"
 __author__ = "kayma"
 
-import sqlite3
 from typing import List, Tuple, Optional
+from urllib.parse import quote
 import mysql.connector
-from common_lib import kTools
+import couchdb
+import sqlite3
 
-class SimpleMySql:    
-    def __init__(self):
+#
+# # Connect to CouchDB server
+#
+#
+# # Access a database
+# db = couch['my_database']
+#
+# # Get a document
+# doc = db['document_id']
+# print(doc)
+#
+# # Add a new document
+# db.save({'type': 'person', 'name': 'Kumar', 'age': 41})
+
+
+class SimpleCouchDB():
+
+    def __init__(self,database="mydata", dbuser="root",dbpass="pass"):
+        host = "localhost"
+        port = "5984"
+        dbpass = quote(dbpass)
+        self.conn = couchdb.Server(f'http://{dbuser}:{dbpass}@{host}:{port}/')
+        self.db = self.conn[database]
+
+    def getAllDocuments(self):
+        if self.db:
+            # Get all documents using _all_docs view
+            docs = []
+            for row in self.db.view('_all_docs', include_docs=True):
+                docs.append(row.doc)  # row.doc is a dict
+            return docs
+        return []
+
+    def getDocument(self,doc_id):
+        if self.db:
+            return self.db[doc_id]
+        return None
+
+    def setDocument(self, data={}):
+        if data and self.db:
+            self.db.save(data)
+            return 1
+        return 0
+
+class SimpleMySql:
+    
+    def __init__(self,dbuser="root",dbpass="pas"):
         self.conn = None
-        self.tls = kTools.KTools()
-        
+        self.dbuser = dbuser
+        self.dbpass = dbpass
+
     def connect(self):
-        
-        if self.conn is None:
-            connection_name = "kaymatrix:us-central1:mycryptodb"
-            db_name = "kmxcryptos"
-            db_user = "root"
-            db_password = self.tls.getEnv('DB_PASS', None)
-            is_prod = self.tls.getEnv('IS_PROD', 0)
-            ip_prod = self.tls.getEnv('IP_PROD', 0)
-            socket_path = f"/cloudsql/{connection_name}"
-            if is_prod:
-                self.conn = mysql.connector.connect(
-                    user=db_user,
-                    password=db_password,
-                    unix_socket=socket_path,
-                    database=db_name
-                )
-            else:
-                self.conn = mysql.connector.connect(
-                    user=db_user,
-                    password=db_password,
-                    host="127.0.0.1",
-                    port=3306,
-                    database=db_name
-                )
+        if self.conn is None:        
+            self.conn = mysql.connector.connect(
+                            host="127.0.0.1",
+                            port=3306,
+                            user=self.dbuser,
+                            password=self.dbpass)
         return self.conn
 
     def execute_query(self, query: str, params: Tuple = ()) -> None:
@@ -71,7 +100,7 @@ class SimpleMySql:
             self.conn = None
 
 class SimpleSQLite:
-    def __init__(self, db_path: str):
+    def __init__(self, db_path):
         self.db_path = db_path
         self.conn: Optional[sqlite3.Connection] = None
 

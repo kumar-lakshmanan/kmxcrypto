@@ -1,14 +1,15 @@
 import functions_framework
 
-import mainDailyPNLAndSentimentCollector
-from common_lib import kTools
-from lib import utilities
-from lib import fetcher    
-import mainDailyPNLWinnersCheck
-from common_lib import kDatabase
+import kTools
+import main_winner_check
+import main_fetch_coins
 
 tls = kTools.KTools()
-tls.logSys.setLevel("INFO")
+
+tls.turnDebugLogs(not tls.isProd())
+tls.logSkipFor.append("CoinMarketCap")
+
+# http://192.168.29.185:8080/?action=runcheck
 
 @functions_framework.http
 def mymainfunction(request):
@@ -28,18 +29,12 @@ def mymainfunction(request):
 
         if action == "runcheck":
             tls.info("Performing winner check")
-            ret = mainDailyPNLWinnersCheck.doWinnerCheck()
+            ret = main_winner_check.doWinnerCheck()
 
         if action == "fetchcoin":
             tls.info("Fetching new coins")
-            ret = mainDailyPNLAndSentimentCollector.fetchTodaysCoin(param1)
+            ret = main_fetch_coins.doFetchCoin(param1)
 
-        if action == "dbcheck":
-            tls.info("Testing DB Connection....")
-            db = kDatabase.SimpleMySql()
-            db.connect()
-            db.close()
-            tls.info("Able to connect!!")
 
     tls.info("Request Done")
     return str(ret)
