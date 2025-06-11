@@ -79,7 +79,14 @@ class GCPFireStore():
         self.tls.debug(f"Updating {docId} with {updateDict}")
 
     def _getDocId(self, doc):
-        return doc.to_dict()['_id']
+        if '_id' in doc:
+            return doc['_id']
+        if hasattr(doc, '_id'):
+            return doc._id
+        if hasattr(doc, 'to_dict'):
+            return doc.to_dict()['_id']
+        self.tls.warn(f"Doc format unknown {doc}")
+        return None
 
     def _coreQry(self, filters):
         query = self.db.collection(self.collectionName)
