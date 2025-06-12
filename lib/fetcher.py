@@ -158,6 +158,31 @@ class ConsolidatedDataFetch():
             data['trendPercent'] = trendPercent = each[22]
             data['sentimenttype'] = type = each[23]
 
+            # Should be in binance and trade vol in it should be above zero
+            if not (binTradVolPercent > 0):
+                self.tls.info(f" {coin} - Failed binTradVolPercent {binTradVolPercent} > 0")
+                continue
+
+            # rank should be below 50
+            if not (rank < 95 and rank > 10):
+                self.tls.info(f" {coin} - Failed rank {rank} < 95 and > 10")
+                continue
+
+            # cmcWatchers should be above 100k
+            if not (cmcWatchers > 100000):
+                self.tls.info(f" {coin} - Failed cmcWatchers {cmcWatchers} > 100000")
+                continue
+
+            # Price Change Percent should be less then 0
+            if not (priceChangePercent < 0):
+                self.tls.info(f" {coin} - Failed priceChangePercent {priceChangePercent} < 0")
+                continue
+
+            # cmcStarRating should be above 1
+            if not (cmcStarRating > 1):
+                self.tls.info(f" {coin} - Failed cmcStarRating {cmcStarRating} > 1")
+                continue
+
             # Info should not be missed
             if (self.isMissing(bullvotes) or
                 self.isMissing(bearvotes) or
@@ -165,32 +190,7 @@ class ConsolidatedDataFetch():
                 self.isMissing(bearpercent) or
                 self.isMissing(ttlvotes) or
                 self.isMissing(trendPercent)):
-                self.tls.debug(f" {coin} - missed few infos: BLV: {bullvotes}, BRV: {bearvotes}, BLP: {bullpercent}, BRP: {bearpercent}, TTLV: {ttlvotes}, TRP: {trendPercent}")
-                continue
-
-            # Price Change Percent should be less then 0
-            if not (priceChangePercent < 0):
-                self.tls.debug(f" {coin} - Faild priceChangePercent {priceChangePercent} < 0")
-                continue
-
-            # Should be in binance and trade vol in it should be above zero
-            if not (binTradVolPercent > 0):
-                self.tls.debug(f" {coin} - Faild binTradVolPercent {binTradVolPercent} > 0")
-                continue
-
-            # rank should be below 50
-            if not (rank < 50 and rank > 10):
-                self.tls.debug(f" {coin} - Faild rank {rank} < 50 and > 10")
-                continue
-
-            # cmcWatchers should be above 100k
-            if not (cmcWatchers > 100000):
-                self.tls.debug(f" {coin} - Faild cmcWatchers {cmcWatchers} > 100000")
-                continue
-
-            # cmcStarRating should be above 1
-            if not (cmcStarRating > 1):
-                self.tls.debug(f" {coin} - Faild cmcStarRating {cmcStarRating} > 1")
+                self.tls.info(f" {coin} - missed few infos: BLV: {bullvotes}, BRV: {bearvotes}, BLP: {bullpercent}, BRP: {bearpercent}, TTLV: {ttlvotes}, TRP: {trendPercent}")
                 continue
 
             picked.append(data)
